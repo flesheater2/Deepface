@@ -1,0 +1,32 @@
+import cv2
+from deepface import DeepFace
+
+cam = cv2.VideoCapture(0)
+
+width = 640
+height = 480
+
+cam.set(cv2.CAP_PROP_FRAME_WIDTH,width)
+cam.set(cv2.CAP_PROP_FRAME_HEIGHT,height)
+cam.set(cv2.CAP_PROP_FPS,30)
+
+image_path_1 = "path/to/first_image.jpg"
+
+while True:
+    ignore,frame = cam.read()
+    
+    results = DeepFace.verify(image_path_1,frame)
+    #print(results)
+    if results["verified"]:
+       print("match = 100% ")
+    else:
+       print("fail")   
+
+
+    cv2.imshow("box",frame)
+
+    if cv2.waitKey(1) & 0xff == ord('q'):
+      break
+
+cam.release()
+cv2.destroyAllWindows()
